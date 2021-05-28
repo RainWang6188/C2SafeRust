@@ -2,7 +2,7 @@
 An semi-automated auxiliary tool which helps to translate C to safe Rust.
 We aim to demonstrate that those vulnerabilities in C will no longer exist when we translate it to safe Rust. So we choose to use a simple [UAF](https://ctf-wiki.org/pwn/linux/glibc-heap/use_after_free/) demo to show the complete process. 
 
-### File Structure
+## File Structure
 ```
 C2SafeRust
 ├───── src
@@ -36,7 +36,7 @@ C2SafeRust
 └───── README.md
 ```
 
-### Translate uaf.c to uaf.rs
+## Translate uaf.c to uaf.rs
 Go to the directory `./src/uaf_c` and run the build.sh via bash
 ``` bash
 cd ./src/uaf_c && bash build.sh
@@ -49,7 +49,7 @@ After building the project, you can clean it using
 rm -rf build uaf.rs
 ```
 
-### Build cargo project of uaf
+## Build cargo project of uaf
 First, we need to change the dir to uaf_rust, and generate a new cargo project `uaf`
 ``` bash
 cd ./src/uaf_rust && cargo new uaf
@@ -81,7 +81,9 @@ Next, we can replace the `main.rs` in the rust project with the `uaf.rs` generat
                                                     unsafe extern "C" fn()
                                                         -> ()));
     ```
-Then, it can successfully pass the `cargo +nightly build`. But you will get `Segmentation fault` when running this project. I think the reason is that the size of `Option<T>` is 8, but `libc::c_int` is 4... So maybe we need to set B1 and B2 to `i64`, and I will try that soon...
+Then, it can successfully pass the `cargo +nightly build`. 
+#### Note
+But you will get `Segmentation fault` when running this project. I think the reason is that the size of `Option<T>` is 8, but `libc::c_int` is 4... So we need to set B1 and B2 to `i64`. The `uaf_mod.rs` file under the `src/uaf_rust` directory is the modification result. 
 ```rust
 Size of struct A: 16
 Size of Option<fnptr>: 8
@@ -92,7 +94,7 @@ Size of libc::c_int: 4
 Size of i64: 8
 ```
 
-### Get the llvm ir code of uaf.c
+## Get the llvm ir code of uaf.c
 Go to director of uaf_ir, and running the following command
 ```bash
 export LLVM_DIR=<installation/dir/of/llvm/12>
