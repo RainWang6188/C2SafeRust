@@ -83,7 +83,7 @@ Next, we can replace the `main.rs` in the rust project with the `uaf.rs` generat
     ```
 Then, it can successfully pass the `cargo +nightly build`. 
 #### Note
-But you will get `Segmentation fault` when running this project. I think the reason is that the size of `Option<T>` is 8, but `libc::c_int` is 4... So we need to set B1 and B2 to `i64`. The `uaf_mod.rs` file under the `src/uaf_rust` directory is the modification result. 
+But you will get `Segmentation fault` when running this project. I think the reason is that the size of `Option<T>` is 8, but `libc::c_int` is 4... So we need to set B1 and B2 to `i64`. The `uaf_mod.rs` file under the `src/uaf_rust` directory is the final modification result, which will output 'In vuln function!' as expected. 
 ```rust
 Size of struct A: 16
 Size of Option<fnptr>: 8
