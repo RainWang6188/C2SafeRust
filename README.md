@@ -59,7 +59,7 @@ Then, we need to add libc to the library dependency in the ./uar/Cargo.toml, as 
 [dependencies]
 libc = "0.2"
 ```
-Next, we can replace the `main.rs` in the rust project with the `uaf.rs` generated previously. Note that when you run `cargo +nightly build` command with the original file, you wil get several errors. Those errors can be solved by making following modification to the `main.rs`
+Next, we can replace the `main.rs` in the rust project with the `uaf.rs` generated previously (or simply use the `uaf_org.rs`, they're the same). Note that when you run `cargo +nightly build` command with the original file, you wil get several errors. Those errors can be solved by making following modification to the `main.rs`
 1. Change the `as libc::c_ulong` in those `malloc` function to `as u32`. So the result for A's malloc would be
     ```rust
     let mut a: *mut A =
