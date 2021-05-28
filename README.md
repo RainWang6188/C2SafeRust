@@ -37,18 +37,16 @@ C2SafeRust
 ```
 
 ### Translate uaf.c to uaf.rs
-Go to the directory `./src/uaf_c` and run the build.sh in bash
-
+Go to the directory `./src/uaf_c` and run the build.sh via bash
 ``` bash
 cd ./src/uaf_c && bash build.sh
 ```
 `build.sh` involves two steps:
 1. generate `compile_commands.json` and `uaf` executable in the build directory
 2. generate `uaf.rs` in the parenet directory of build using the [c2rust](https://github.com/immunant/c2rust) tool.
-
 After building the project, you can clean it using
 ```bash
-rm -rf build
+rm -rf build uaf.rs
 ```
 
 ### Build cargo project of uaf
