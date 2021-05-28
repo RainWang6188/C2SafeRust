@@ -40,16 +40,21 @@ C2SafeRust
 Go to the directory `./src/uaf_c` and run the build.sh via bash
 
 ``` bash
-$ cd ./src/uaf_c && bash build.sh
+cd ./src/uaf_c && bash build.sh
 ```
 `build.sh` involves two steps:
 1. generate `compile_commands.json` and `uaf` executable in the build directory
 2. generate `uaf.rs` in the parenet directory of build using the [c2rust](https://github.com/immunant/c2rust) tool.
 
+After building the project, you can clean it using
+```bash
+rm -rf build
+```
+
 ### Build cargo project of uaf
 First, we need to change the dir to uaf_rust, and generate a new cargo project `uaf`
 ``` bash
-$ cd ./src/uaf_rust && cargo new uaf
+cd ./src/uaf_rust && cargo new uaf
 ```
 Then, we need to add libc to the library dependency in the ./uar/Cargo.toml, as follows:
 ``` 
