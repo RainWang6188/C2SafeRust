@@ -37,7 +37,7 @@ C2SafeRust
 ```
 
 ### Translate uaf.c to uaf.rs
-Go to the directory `./src/uaf_c` and run the build.sh via bash
+Go to the directory `./src/uaf_c` and run the build.sh in bash
 
 ``` bash
 cd ./src/uaf_c && bash build.sh
