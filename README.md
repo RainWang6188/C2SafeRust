@@ -111,13 +111,25 @@ Size of i64: 8
 ```
 
 ## Get the llvm ir code of uaf.c
-
-Go to director of uaf_ir, and running the following command
-
+Go to directory of uaf_ir, and running the following command
 ```bash
 export LLVM_DIR=<installation/dir/of/llvm/12>
-$LLVM_DIR/bin/clang  -emit-llvm uaf.c -S -g -fno-discard-value-names -o uaf.ll
+$LLVM_DIR/bin/clang  -emit-llvm uaf.c -S -fno-discard-value-names -o uaf.ll
 ```
+## Generate dependency policy
+We use [anytree](https://anytree.readthedocs.io/en/latest/) as the implementation of the dependency tree. 
+To intall it, you should run
+``` bash
+sudo apt install graphviz
+pip install anytree
+```
+Then, you can simply run the following cammands to generate the dependency tree
+```bash
+cp uaf.ll uaf.ll.txt
+python test.py
+```
+#### bug
+    Cannot use DotExporter to output user defined class... still working on it...
 
 # Reference
 
