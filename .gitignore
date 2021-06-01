@@ -1,0 +1,5 @@
+.DS_Store_
+
+**/build/
+src/uaf_c/uaf.rs
+src/uaf_rust/uaf
