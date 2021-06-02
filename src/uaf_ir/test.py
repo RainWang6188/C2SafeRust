@@ -144,8 +144,8 @@ for line in ir_file:
             right_operand = line[right_index_range[0]: right_index_range[1]-7]
 
             find_parent_node(left_operand, right_operand)
-
-        else: # only 1 operand -> change value/type
+        # case 6.2: only 1 operand -> change value/type
+        else: 
             type_index_range = re.search('store [0-9a-zA-Z]* ', line).span()
             type_val = line[type_index_range[0]+6: type_index_range[1]-1]
 
@@ -161,7 +161,6 @@ ir_file.close()
 for root in root_node:
     #[bug]
     #DotExporter(root).to_picture(root.name + ".png")
-    #DotExporter(root).to_dotfile(root.name + ".dot")
 
     # for line in DotExporter(root):
     #     print(line)
