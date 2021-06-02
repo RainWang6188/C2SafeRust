@@ -17,8 +17,4 @@ cp uaf.ll uaf.ll.txt
 python test.py
 ```
 #### bug
-    Cannot use DotExporter to store user defined class in the picture... see `[bug]` tag in the test.py.
-
-# Reference
-
-[c - "fatal error: bits/libc-header-start.h: No such file or directory" while compiling HTK - Stack Overflow](https://stackoverflow.com/questions/54082459/fatal-error-bits-libc-header-start-h-no-such-file-or-directory-while-compili)
+Cannot use DotExporter to store user defined class in the picture... see `[bug]` tag in the test.py.
