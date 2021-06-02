@@ -13,7 +13,7 @@ class DependencyNode(NodeMixin):
         if children:
             self.children = children
 
-def add_node(name, type_val, parent_name=None, isRoot=0):  
+def add_node(name, type_val, parent_name=None, isRoot=1):  
     p = None
     if isRoot == 0:
         for node in recorded_node:
@@ -30,6 +30,36 @@ def add_node(name, type_val, parent_name=None, isRoot=0):
         root_node.append(new_node)
     recorded_node.append(new_node)
 
+def find_parent_node(parent_name, child_name):
+    parent_node = None
+    child_node = None
+
+    for node in recorded_node:
+        if node.name == parent_name:
+            parent_node = node
+        elif node.name == child_name:
+            child_node = node
+    
+    if parent_node == None or child_node == None:
+        print("Error Occured: nodes haven't been recorded!")
+        exit(-1)
+    if(child_node.parent != None):
+        print("Error Occured: child node already has parent!")
+        exit(-1)
+
+    child_node.parent = parent_node
+    root_node.remove(child_node)
+    
+def change_node_type(node_name, node_type):
+    flag = 0
+    for node in recorded_node:
+        if node.name == node_name:
+            flag = 1
+            node.type = node_type
+    
+    if flag == 0:
+        print("Error Occured: the node hasn't been recorded!")
+        exit(-1)
 
 FILE_DIR = './uaf.ll.txt'
 
@@ -90,7 +120,7 @@ for line in ir_file:
         # print('line={}'.format(line_count))
         # print("left_operand = {}, type_val = {}, right_operand={}".format(left_operand, type_val, right_operand))
         add_node(left_operand, type_val, right_operand, 0)
-    # case5: 'getelementptr' -> 
+    # case5: 'getelementptr' -> (p=right_operand, c=left_operand)
     elif re.search('getelementptr', line):
         assign_index_range = re.search(' = getelementptr inbounds ', line).span()
         temp_index_range = re.search('%', line).span()
@@ -101,8 +131,29 @@ for line in ir_file:
         temp_index_range = re.search('%[0-9a-zA-Z]*,', line).span()
         right_operand = line[temp_index_range[0]: temp_index_range[1]-1]
 
-        add_node(left_operand, type_val, right_operand, 1)
-    # other cases: 'store' | '^call' | 'ret' ...
+        add_node(left_operand, type_val, right_operand, 0)
+    # case6: 'store' -> 6.1 | 6.2
+    elif re.search('store', line):
+        first_comma_index = (re.search(',', line).span())[0]
+        # case 6.1: 2 operands -> (p=left_operand, c=right_operand)
+        if re.search('%[0-9a-zA-Z]*,', line[:first_comma_index+1]):
+            left_index_range = re.search('%[0-9a-zA-Z]*,', line[:first_comma_index+1]).span()
+            left_operand = line[left_index_range[0]: left_index_range[1]-1]
+
+            right_index_range = re.search('%[0-9a-zA-Z]*, align', line).span()
+            right_operand = line[right_index_range[0]: right_index_range[1]-7]
+
+            find_parent_node(left_operand, right_operand)
+
+        else: # only 1 operand -> change value/type
+            type_index_range = re.search('store [0-9a-zA-Z]* ', line).span()
+            type_val = line[type_index_range[0]+6: type_index_range[1]-1]
+
+            operand_index_range = re.search('%[0-9a-zA-Z]*, align', line).span()
+            operand = line[operand_index_range[0]: operand_index_range[1]-7]
+
+            change_node_type(operand, type_val)
+    # other cases: '^call' | 'ret' ...
     else: 
         continue
 ir_file.close()
@@ -110,9 +161,10 @@ ir_file.close()
 for root in root_node:
     #[bug]
     #DotExporter(root).to_picture(root.name + ".png")
-    
+    #DotExporter(root).to_dotfile(root.name + ".dot")
+
     # for line in DotExporter(root):
     #     print(line)
     for pre, fill, node in RenderTree(root):
         treestr = u"%s%s" % (pre, node.name)
-        print(treestr.ljust(10), node.type)
+        print(treestr.ljust(30), node.type)
