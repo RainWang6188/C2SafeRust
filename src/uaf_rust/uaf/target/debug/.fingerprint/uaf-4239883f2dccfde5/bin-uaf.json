@@ -1,0 +1,1 @@
+{"rustc":4637997617383607407,"features":"[]","target":11675904492093968159,"profile":18108590124580271077,"path":1036222786711178230,"deps":[[11513337106546819675,"libc",false,6043460756804687536]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/uaf-4239883f2dccfde5/dep-bin-uaf"}}],"rustflags":[],"metadata":15267994779640029260,"config":0,"compile_kind":0}
