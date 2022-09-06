@@ -28,7 +28,9 @@ C2SafeRust
 |      |
 |      └──── uaf_ir
 |              ├─── uaf.ll
-│              └─── uaf.c
+│              ├─── uaf.c
+|              ├─── gen_deptree.py
+|              └─── uaf.ll.txt (after building)
 |
 ├─── report
 |       ├─── template
