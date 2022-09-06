@@ -128,8 +128,12 @@ Then, you can simply run the following cammands to generate the dependency tree
 cp uaf.ll uaf.ll.txt
 python test.py
 ```
-#### bug
-Cannot use DotExporter to output user defined class... still working on it...
+
+## Modify unsafe Rust to safe Rust
+
+The unsafe Rust in `uaf_org.rs` can be translated to safe Rust by executing `src/uaf_rust/modify.py`.
+
+Replace the original `src/uaf_rust/uaf/src/main.rs` with the generated safe Rust code, you can see that the UAF bug is detected by the compiler.
 
 # Reference
 
